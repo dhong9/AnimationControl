@@ -95,6 +95,7 @@ AnimationControl::~AnimationControl()
 	if (bones != NULL) { delete bones; bones = NULL; }
 }
 
+// This function updates the joint rotations after each frame by using linear interpolation.
 bool AnimationControl::updateAnimation(float _elapsed_time)
 {
 	if (!ready) return false;
@@ -108,8 +109,8 @@ bool AnimationControl::updateAnimation(float _elapsed_time)
 
 	float delta = (current_time - previous_time) / (next_target_move - previous_time);
 	Angles nextAngle = joint_angles[(current_state + 1) % num_targets];
-	// (1-t)rx0 + t(rx1)
-
+	
+	// Linear interpolation code here
 	target->moveTo(target_coords[current_state]);
 	bones->setAngles(0, joint_angles[current_state].bone0 = joint_angles[current_state].bone0*(1.0f - delta) + nextAngle.bone0*delta); // Added linear interpolation
 	bones->setAngles(1, joint_angles[current_state].bone1 = joint_angles[current_state].bone1*(1.0f - delta) + nextAngle.bone1*delta); // Added linear interpolation
